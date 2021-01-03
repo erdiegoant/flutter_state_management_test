@@ -21,24 +21,26 @@ class StackedLoginView extends StatelessWidget {
 class _LoginBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LoginViewModel>.nonReactive(
+    return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: () => LoginViewModel(),
-      onModelReady: (model) => model.futureToRun(),
+      onModelReady: (model) => model.futureToRun,
       builder: (_, model, child) {
-        return model.isBusy
-            ? CircularProgressIndicator()
-            : Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  children: [
-                    _EmailInput(),
-                    SizedBox(height: 20),
-                    _PasswordInput(),
-                    SizedBox(height: 20),
-                    _SubmitForm(),
-                  ],
-                ),
-              );
+        if (model.isBusy) {
+          return CircularProgressIndicator();
+        }
+
+        return Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            children: [
+              _EmailInput(),
+              SizedBox(height: 20),
+              _PasswordInput(),
+              SizedBox(height: 20),
+              _SubmitForm(),
+            ],
+          ),
+        );
       },
     );
   }

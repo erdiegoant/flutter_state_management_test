@@ -39,9 +39,8 @@ class AuthenticationService with ReactiveServiceMixin {
     try {
       var api = await _apiService.apiWithToken();
       var response = await api.get('user');
-      print(response.data);
 
-      _currentUser.value = User.fromJson(response.data);
+      _currentUser.value = User.fromJson(response.data['user']);
     } catch (e) {
       print(e);
     }
@@ -58,7 +57,7 @@ class AuthenticationService with ReactiveServiceMixin {
         'device_name': androidInfo.model,
       });
 
-      await _sharedPreferencesService.storeToken(response.data);
+      await _sharedPreferencesService.storeToken(response.data['token']);
       await getCurrentUser();
       await _navigationService.replaceWith(Routes.stackedEventsView);
     } on DioError catch (e) {

@@ -39,7 +39,7 @@ class ApiService {
 
     var dio = await Dio(options);
     // Uncomment this to view the requests in the logs
-    dio.interceptors.add(LogInterceptor());
+    // dio.interceptors.add(LogInterceptor());
 
     return dio;
   }
