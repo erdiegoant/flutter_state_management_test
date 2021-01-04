@@ -12,6 +12,7 @@ class EventsViewModel extends FutureViewModel {
   final _authenticationService = locator<AuthenticationService>();
   final _apiService = locator<ApiService>();
   final _navigationService = locator<NavigationService>();
+  final _dialogService = locator<DialogService>();
   List<Event> _events = [];
 
   User get user => _authenticationService.user;
@@ -23,6 +24,7 @@ class EventsViewModel extends FutureViewModel {
   }
 
   Future<void> fetchEvents() async {
+    setBusy(true);
     var api = await _apiService.apiWithToken();
 
     try {
@@ -34,16 +36,25 @@ class EventsViewModel extends FutureViewModel {
       notifyListeners();
     } on DioError catch (e) {
       print(e.message);
+      await _dialogService.showDialog(
+        title: 'Error',
+        description: 'Error fetching the events',
+      );
+    } finally {
+      setBusy(false);
     }
   }
 
-  Future<void> navigateToCreateEvent() async {
-    var result =
-        await _navigationService.navigateTo(Routes.stackedEventsCreateView);
+  Future<void> navigateToEventDetail(int eventId) async {
+    await _navigationService.navigateTo(
+      Routes.stackedEventDetailsView,
+      arguments: StackedEventDetailsViewArguments(eventId: eventId),
+    );
+  }
 
-    if (result is Event) {
-      _events.add(result);
-      notifyListeners();
-    }
+  Future<void> navigateToCreateEvent() async {
+    await _navigationService.navigateTo(Routes.stackedEventsCreateView);
+
+    await fetchEvents();
   }
 }

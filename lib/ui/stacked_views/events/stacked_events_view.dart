@@ -19,69 +19,55 @@ class StackedEventsView extends StatelessWidget {
 class _PageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: ViewModelBuilder<EventsViewModel>.nonReactive(
-        viewModelBuilder: () => EventsViewModel(),
-        fireOnModelReadyOnce: true,
-        onModelReady: (model) => model.futureToRun,
-        builder: (_, model, child) {
-          return Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Center(
-                child: Text(
-                  'Events page',
-                  style: TextStyle(fontSize: 20),
-                ),
+    return ViewModelBuilder<EventsViewModel>.nonReactive(
+      viewModelBuilder: () => EventsViewModel(),
+      fireOnModelReadyOnce: true,
+      onModelReady: (model) => model.futureToRun,
+      builder: (_, model, child) {
+        return Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SizedBox(height: 30),
+            Center(
+              child: Text(
+                'Events page',
+                style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 30),
-              _EventsList(),
-            ],
-          );
-        },
-      ),
+            ),
+            SizedBox(height: 20),
+            _EventsList(),
+          ],
+        );
+      },
     );
   }
 }
 
-class _EventsList extends StatelessWidget {
+class _EventsList extends ViewModelWidget<EventsViewModel> {
   @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<EventsViewModel>.reactive(
-      viewModelBuilder: () => EventsViewModel(),
-      builder: (_, model, child) {
-        if (model.isBusy) {
-          return CircularProgressIndicator();
-        }
+  bool get reactive => true;
 
-        print(model.events);
-
-        return model.events.isNotEmpty
-            ? Expanded(
-                child: ListView.builder(
-                  itemCount: model.events.length,
-                  itemBuilder: (_, index) {
-                    return EventCard(event: model.events[index]);
-                  },
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Column(
-                  children: [
-                    Center(
-                      child: Text('No events'),
-                    ),
-                    RaisedButton(
-                      onPressed: model.fetchEvents,
-                      child: Text('Reload'),
-                    ),
-                  ],
-                ),
-              );
-      },
-    );
+  @override
+  Widget build(BuildContext context, EventsViewModel model) {
+    return model.isBusy
+        ? RefreshProgressIndicator()
+        : Expanded(
+            child: RefreshIndicator(
+              onRefresh: model.fetchEvents,
+              displacement: 10,
+              child: ListView.builder(
+                itemCount: model.events.length,
+                itemBuilder: (_, index) {
+                  return EventCard(
+                    event: model.events[index],
+                    onTap: () {
+                      model.navigateToEventDetail(model.events[index].id);
+                    },
+                  );
+                },
+              ),
+            ),
+          );
   }
 }
 
