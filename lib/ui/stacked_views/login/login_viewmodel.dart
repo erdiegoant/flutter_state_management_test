@@ -1,5 +1,6 @@
 import 'package:stacked/stacked.dart' show FutureViewModel;
 import 'package:state_management_test/app/locator.dart';
+import 'package:state_management_test/app/router.gr.dart';
 import 'package:state_management_test/services/authentication_service.dart';
 
 class LoginViewModel extends FutureViewModel {
@@ -11,7 +12,9 @@ class LoginViewModel extends FutureViewModel {
 
   @override
   Future<void> futureToRun() async {
-    await _authenticationService.checkLogin();
+    await _authenticationService.checkLogin(
+      routeToVisit: Routes.stackedEventsView,
+    );
   }
 
   void setEmail(String value) {
@@ -25,6 +28,6 @@ class LoginViewModel extends FutureViewModel {
   }
 
   Future<void> loginUser() async {
-    await _authenticationService.loginUser(_email, _password);
+    await runBusyFuture(_authenticationService.loginUser(_email, _password));
   }
 }

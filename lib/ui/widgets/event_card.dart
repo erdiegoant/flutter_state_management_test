@@ -28,9 +28,15 @@ class EventCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(event.description),
+                Container(
+                  height: 15,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      event.description,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
               ],
             ),

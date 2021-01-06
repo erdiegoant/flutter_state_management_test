@@ -83,7 +83,10 @@ class _EventDetails extends StatelessWidget {
           child: Text(
             event.description,
             textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(fontSize: 16, letterSpacing: 0.8),
           ),
         ),
         SizedBox(height: 20),

@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
                 child: Text('Stacked package'),
                 onPressed: _navigateToStacked,
               ),
-              RaisedButton(child: Text('Provider package'), onPressed: () {}),
+              RaisedButton(child: Text('Riverpod package'), onPressed: () {}),
               RaisedButton(child: Text('GetX package'), onPressed: () {}),
               RaisedButton(child: Text('Bloc Pattern'), onPressed: () {}),
               RaisedButton(

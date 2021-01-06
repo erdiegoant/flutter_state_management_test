@@ -24,12 +24,12 @@ class AuthenticationService with ReactiveServiceMixin {
 
   User get user => _currentUser.value;
 
-  Future<void> checkLogin() async {
+  Future<void> checkLogin({String routeToVisit}) async {
     await getCurrentUser();
 
     if (_currentUser.value != null) {
       print('Logged in');
-      await _navigationService.replaceWith(Routes.stackedEventsView);
+      await _navigationService.replaceWith(routeToVisit);
     } else {
       print('Logged out');
     }

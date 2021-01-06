@@ -89,10 +89,13 @@ class _PasswordInput extends HookViewModelWidget<LoginViewModel> {
 
 class _SubmitForm extends ViewModelWidget<LoginViewModel> {
   @override
+  bool get reactive => true;
+
+  @override
   Widget build(_, LoginViewModel model) {
     return RaisedButton(
       onPressed: model.loginUser,
-      child: Text('Login'),
+      child: model.isBusy ? CircularProgressIndicator() : Text('Login'),
     );
   }
 }
