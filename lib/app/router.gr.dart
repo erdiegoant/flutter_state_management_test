@@ -74,6 +74,7 @@ class AutoRouter extends RouterBase {
         builder: (context) => StackedEventDetailsView(
           key: args.key,
           eventId: args.eventId,
+          title: args.title,
         ),
         settings: data,
       );
@@ -89,5 +90,7 @@ class AutoRouter extends RouterBase {
 class StackedEventDetailsViewArguments {
   final Key key;
   final int eventId;
-  StackedEventDetailsViewArguments({this.key, @required this.eventId});
+  final String title;
+  StackedEventDetailsViewArguments(
+      {this.key, @required this.eventId, @required this.title});
 }

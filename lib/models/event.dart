@@ -24,9 +24,11 @@ class Event {
       title: json['title'],
       description: json['description'],
       user: User.fromJson(json['user']),
-      comments: (json['comments'] as List)
-          ?.map((comment) => EventComment.fromJson(comment))
-          ?.toList(),
+      comments: json['comments'] != null
+          ? (json['comments'] as List)
+              ?.map((comment) => EventComment.fromJson(comment))
+              ?.toList()
+          : [],
     );
   }
 }

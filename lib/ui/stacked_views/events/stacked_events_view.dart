@@ -61,7 +61,10 @@ class _EventsList extends ViewModelWidget<EventsViewModel> {
                   return EventCard(
                     event: model.events[index],
                     onTap: () {
-                      model.navigateToEventDetail(model.events[index].id);
+                      model.navigateToEventDetail(
+                        eventId: model.events[index].id,
+                        title: model.events[index].title,
+                      );
                     },
                   );
                 },

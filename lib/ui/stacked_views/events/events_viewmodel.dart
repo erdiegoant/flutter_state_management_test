@@ -45,10 +45,13 @@ class EventsViewModel extends FutureViewModel {
     }
   }
 
-  Future<void> navigateToEventDetail(int eventId) async {
+  Future<void> navigateToEventDetail({int eventId, String title}) async {
     await _navigationService.navigateTo(
       Routes.stackedEventDetailsView,
-      arguments: StackedEventDetailsViewArguments(eventId: eventId),
+      arguments: StackedEventDetailsViewArguments(
+        eventId: eventId,
+        title: title,
+      ),
     );
   }
 

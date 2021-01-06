@@ -10,6 +10,7 @@ class ApiService {
   final _preferencesService = locator<SharedPreferencesService>();
   final baseUrl = 'http://10.0.2.2:8000/api/';
 
+  /// Gets a [Dio] instance with basic setup.
   Future<Dio> api() async {
     var options = BaseOptions(
       baseUrl: baseUrl,
@@ -24,6 +25,7 @@ class ApiService {
     return dio;
   }
 
+  /// Gets a [Dio] instance with authorization headers.
   Future<Dio> apiWithToken() async {
     var preferences = await _preferencesService;
     final token = await preferences.getToken();
