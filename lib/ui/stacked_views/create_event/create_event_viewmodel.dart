@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:state_management_test/app/locator.dart';
+import 'package:state_management_test/models/event.dart';
 import 'package:state_management_test/services/api_service.dart';
 
 class CreateEventViewModel extends BaseViewModel {
@@ -27,12 +28,14 @@ class CreateEventViewModel extends BaseViewModel {
     var api = await _apiService.apiWithToken();
 
     try {
-      await api.post('events', data: {
+      var result = await api.post('events', data: {
         'title': _title,
         'description': _description,
       });
 
-      _navigationService.back();
+      var event = Event.fromJson(result.data['event']);
+
+      _navigationService.back(result: event);
     } on DioError catch (e) {
       print(e);
     }
