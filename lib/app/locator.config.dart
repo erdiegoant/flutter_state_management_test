@@ -10,6 +10,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../services/api_service.dart';
 import '../services/authentication_service.dart';
+import '../ui/stacked_views/events/events_viewmodel.dart';
 import '../services/shared_preferences_service.dart';
 import '../services/thir_party_services_module.dart';
 
@@ -26,6 +27,7 @@ GetIt $initGetIt(
   gh.lazySingleton<ApiService>(() => ApiService());
   gh.lazySingleton<AuthenticationService>(() => AuthenticationService());
   gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
+  gh.lazySingleton<EventsViewModel>(() => EventsViewModel());
   gh.lazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<SharedPreferencesService>(() => SharedPreferencesService());

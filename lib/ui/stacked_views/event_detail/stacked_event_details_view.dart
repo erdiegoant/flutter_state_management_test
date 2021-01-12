@@ -62,7 +62,7 @@ class _EventDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -121,16 +121,20 @@ class _CommentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (_, index) {
-          return _CommentItem(
-            comments[index],
-            isLast: index == comments.length,
-          );
-        },
-        itemCount: comments.length,
-      ),
+    return Column(
+      children: comments
+          .asMap()
+          .map(
+            (index, comment) => MapEntry(
+              index,
+              _CommentItem(
+                comment,
+                isLast: index == comments.length,
+              ),
+            ),
+          )
+          .values
+          .toList(),
     );
   }
 }
@@ -145,6 +149,7 @@ class _CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         border: Border(
           top: isLast ? null : BorderSide(color: Colors.grey[300]),

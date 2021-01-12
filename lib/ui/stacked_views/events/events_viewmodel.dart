@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:state_management_test/app/locator.dart';
@@ -8,6 +9,7 @@ import 'package:state_management_test/models/user.dart';
 import 'package:state_management_test/services/api_service.dart';
 import 'package:state_management_test/services/authentication_service.dart';
 
+@lazySingleton
 class EventsViewModel extends FutureViewModel {
   final _authenticationService = locator<AuthenticationService>();
   final _apiService = locator<ApiService>();
@@ -56,8 +58,9 @@ class EventsViewModel extends FutureViewModel {
   }
 
   Future<void> navigateToCreateEvent() async {
-    await _navigationService.navigateTo(Routes.stackedEventsCreateView);
-
-    await fetchEvents();
+    var result =
+        await _navigationService.navigateTo(Routes.stackedEventsCreateView);
+    _events.add(result);
+    notifyListeners();
   }
 }
